@@ -20,9 +20,11 @@ export function init(language: string) {
         if(!translationManager.isReady)
         {
             translationManager.init({
-                isLocalEnvironment: false,
+                isUseTolgeeRealTime: false,
                 languageId: _language,
-                staticData: window["languages"]
+                getStaticData: (languageId) => {
+                    return window["languages"][languageId]
+                }
             })
             console.log("init language in LanguageData");
         }

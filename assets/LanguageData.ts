@@ -5,7 +5,7 @@ export let _language = "en";
 
 export let ready: boolean = false;
 
-const translationManager = gc.Shared.utils.TransaltionManager;
+const translationManager = gc.Shared.utils.TranslationManager;
 
 /**
  * 初始化
@@ -45,7 +45,7 @@ export function init(language: string) {
 export function t(key: string) {
     
     try {
-        return gc.Shared.utils.TransaltionManager.translate(key)
+        return gc.Shared.utils.TranslationManager.translate(key)
     } catch (e) {
         console.log(e);
     }

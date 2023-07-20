@@ -135,9 +135,11 @@ module.exports = Editor.Panel.define({
                     const names = (0, fs_1.readdirSync)(dir);
                     vm.$set(vm, "list", []);
                     names.forEach((name) => {
-                        const language = name.replace(/\.[^\.]+$/, "");
-                        if (!/\./.test(language)) {
-                            vm.list.push(language);
+                        if (!name.startsWith("index")) {
+                            const language = name.replace(/\.[^\.]+$/, "");
+                            if (!/\./.test(language)) {
+                                vm.list.push(language);
+                            }
                         }
                     });
                     console.log(vm.list);

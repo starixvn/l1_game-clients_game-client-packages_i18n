@@ -5,8 +5,6 @@ export let _language = "en";
 
 export let ready: boolean = false;
 
-const translationManager = gc.Shared.utils.TranslationManager;
-
 /**
  * 初始化
  * @param language
@@ -17,9 +15,9 @@ export function init(language: string) {
     _language = language;
 
     try {
-        if(!translationManager.isReady)
+        if(!gc.Translator.isReady)
         {
-            translationManager.init({
+            gc.Translator.init({
                 isUseTolgeeRealTime: false,
                 languageId: _language,
                 getStaticData: (languageId) => {
@@ -29,7 +27,7 @@ export function init(language: string) {
             console.log("init language in LanguageData");
         }
         else if(isChangingLanguage) {
-            translationManager.changeLanguage(_language);
+            gc.Translator.changeLanguage(_language);
             console.log("change language in LanguageData");
         }
 

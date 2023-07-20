@@ -43,7 +43,7 @@ export function init(language: string) {
 export function t(key: string) {
     
     try {
-        return gc.Shared.utils.TranslationManager.translate(key)
+        return gc.Translator.translate(key)
     } catch (e) {
         console.log(e);
     }

@@ -7,7 +7,7 @@ const { ccclass, property, executeInEditMode } = _decorator;
 @ccclass('LocalizedSpriteItem')
 class LocalizedSpriteItem {
     @property
-    language: string = 'zh';
+    language: string = 'en';
     @property({
         type: SpriteFrame,
     })
@@ -26,7 +26,7 @@ export class LocalizedSprite extends Component {
 
     onLoad() {
         if (!i18n.ready) {
-            i18n.init('zh');
+            i18n.init('en');
         }
         this.fetchRender();
     }

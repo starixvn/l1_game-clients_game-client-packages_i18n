@@ -26,7 +26,7 @@ export function init(language: string) {
             })
             console.log("init language in LanguageData");
         }
-        else if(isChangingLanguage) {
+        else if(isChangingLanguage && _language !== gc.Translator.options?.languageId) {
             gc.Translator.changeLanguage(_language);
             console.log("change language in LanguageData");
         }

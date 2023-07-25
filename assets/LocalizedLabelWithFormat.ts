@@ -13,9 +13,18 @@ export enum FormationHandler {
 
 @ccclass("LocalizedLabelWithFormat")
 @executeInEditMode
-export default class LocalizedLabelWithFormat extends LocalizedLabel {
-    @property({ type: Enum(FormationHandler) })
-    format = FormationHandler.UPPER;  
+export default class LocalizedLabelWithFormat extends LocalizedLabel {    
+    @property({ visible: false })
+    format: FormationHandler = FormationHandler.UPPER;
+
+    @property({ displayName: "Format", type: Enum(FormationHandler), visible: true })
+    get _format() {
+        return this.format;
+    }
+    set _format(chosenFormat: FormationHandler) {
+        this.format = chosenFormat;
+        this.updateLabel();
+    }
 
     updateLabel() {
         if (!this.label) {

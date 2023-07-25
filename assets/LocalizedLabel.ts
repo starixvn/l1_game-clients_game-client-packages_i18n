@@ -16,8 +16,8 @@ export class LocalizedLabel extends Component {
         return this.key;
     }
     set _key(str: string) {
-        this.updateLabel();
         this.key = str;
+        this.updateLabel();
     }
 
     onLoad() {

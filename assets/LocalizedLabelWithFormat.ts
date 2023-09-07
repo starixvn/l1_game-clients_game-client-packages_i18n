@@ -35,9 +35,7 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
                 return;
             }
         }
-        console.log(this.key);
         let localizedString = i18n.t(this.key);
-        console.log(this.key, localizedString);
         if (localizedString) {
             localizedString = this.handleFormat(localizedString);            
             this.label.string = localizedString;

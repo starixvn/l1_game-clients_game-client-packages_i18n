@@ -1,21 +1,24 @@
 import * as i18n from "./LanguageData";
 import { LocalizedLabel } from "./LocalizedLabel";
 
-import { _decorator, Label, Enum, error } from "cc";
+import { _decorator, Label, Enum, CCString, error } from "cc";
 const { ccclass, property, executeInEditMode } = _decorator;
 
 export enum FormationHandler {
     NONE,
     UPPER,
     LOWER,
-    TITLE
+    TITLE,
 }
 
 @ccclass("LocalizedLabelWithFormat")
 @executeInEditMode
-export default class LocalizedLabelWithFormat extends LocalizedLabel {    
+export default class LocalizedLabelWithFormat extends LocalizedLabel {
     @property({ visible: false })
     format: FormationHandler = FormationHandler.UPPER;
+
+    @property(CCString)
+    suffix = "";
 
     @property({ displayName: "Format", type: Enum(FormationHandler), visible: true })
     get _format() {
@@ -37,7 +40,10 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
         }
         let localizedString = i18n.t(this.key);
         if (localizedString) {
-            localizedString = this.handleFormat(localizedString);            
+            localizedString = this.handleFormat(localizedString);
+            if (this.suffix.length > 0) {
+                localizedString += this.suffix;
+            }
             this.label.string = localizedString;
         }
     }
@@ -46,16 +52,16 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
         const data = [
             {
                 condition: this.format === FormationHandler.LOWER,
-                handle: this.lowerCase
+                handle: this.lowerCase,
             },
             {
                 condition: this.format === FormationHandler.UPPER,
-                handle: this.upperCase
+                handle: this.upperCase,
             },
             {
                 condition: this.format === FormationHandler.TITLE,
-                handle: this.titleCase
-            }
+                handle: this.titleCase,
+            },
         ];
         const handler = data.filter((passed) => passed.condition);
         return handler.length ? handler[0].handle(value) : value;

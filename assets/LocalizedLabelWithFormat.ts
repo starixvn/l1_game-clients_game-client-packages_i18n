@@ -69,19 +69,21 @@ export default class LocalizedLabelWithFormat extends LocalizedLabel {
     }
 
     titleCase(value: string) {
-        const space = " ";
-        const isBreakLine = value.includes("\n");
-        const result = value
-            .split(space)
-            .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
-            .join(space);
-        if (!isBreakLine) {
-            return result;
-        }
-
-        return result
+        return value
             .split("\n")
-            .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+            .map((line) =>
+                line
+                    .split(" ")
+                    .map((word) =>
+                        /^\d/.test(word) // Check if the word starts with a number
+                            ? word
+                            : word
+                                  .split("-")
+                                  .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+                                  .join("-")
+                    )
+                    .join(" ")
+            )
             .join("\n");
     }
 

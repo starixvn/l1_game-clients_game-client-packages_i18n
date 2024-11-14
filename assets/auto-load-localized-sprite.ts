@@ -5,8 +5,9 @@ import { LocalizedSprite } from "./LocalizedSprite";
 const { ccclass, property } = _decorator;
 
 enum PathType {
-    Folder,
-    Suffix,
+    Folder, // path/en/sprite-name
+    Suffix, // path/sprite-name_en
+    SpriteFolder, // path/sprite-name/en
 }
 
 @ccclass("AutoLoadLocalizedSprite")
@@ -30,10 +31,14 @@ export class AutoLoadLocalizedSprite extends LocalizedSprite {
 
     protected generateSpriteFrameName() {
         const extraType = "/spriteFrame";
-        if (this.pathType === PathType.Suffix) {
-            return `${this.path}/${this.frameName}_${this.currentLanguage}${extraType}`;
+        switch (this.pathType) {
+            case PathType.Folder:
+                return `${this.path}/${this.currentLanguage}/${this.frameName}${extraType}`;
+            case PathType.Suffix:
+                return `${this.path}/${this.frameName}_${this.currentLanguage}${extraType}`;
+            case PathType.SpriteFolder:
+                return `${this.path}/${this.frameName}/${this.currentLanguage}${extraType}`;
         }
-        return `${this.path}/${this.currentLanguage}/${this.frameName}${extraType}`;
     }
 
     async updateSprite() {

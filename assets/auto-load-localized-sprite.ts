@@ -1,5 +1,6 @@
 import { Enum, SpriteFrame, _decorator } from "cc";
-import { bundleManager } from "db://shared-components/shared/common-components/bundle-magager/bundle-manager";
+import { EDITOR } from "cc/env";
+import { bundleManager } from "db://shared-components/shared/common-components/bundle-manager/bundle-manager";
 import { LocalizedSprite } from "./LocalizedSprite";
 
 const { ccclass, property } = _decorator;
@@ -40,8 +41,13 @@ export class AutoLoadLocalizedSprite extends LocalizedSprite {
                 return `${this.path}/${this.frameName}/${this.currentLanguage}${extraType}`;
         }
     }
-
+    
     async updateSprite() {
+          // Skip load image in editor
+          if (EDITOR) {
+            return;
+        }
+        
         try {
             const fileName = this.generateSpriteFrameName();
             const spriteFrame = await bundleManager.loadAssetsFromBundle<SpriteFrame>(this.bundleName, fileName, SpriteFrame, null);

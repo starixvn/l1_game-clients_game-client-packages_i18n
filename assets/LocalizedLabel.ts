@@ -27,6 +27,10 @@ export class LocalizedLabel extends Component {
         this.fetchRender();
     }
 
+    setKey(key: string) {
+        this._key = key;
+    }
+
     fetchRender() {
         let label = this.getComponent("cc.Label") as Label;
         if (label) {

@@ -49,9 +49,15 @@ export class LocalizedSprite extends Component {
             // @ts-ignore
             if (item.language === this.currentLanguage) {
                 // @ts-ignore
-                this.sprite.spriteFrame = item.spriteFrame;
+                this.setSprite(spriteFrame);
                 break;
             }
         }
+    }
+
+    setSprite(spriteFrame: SpriteFrame) {
+        this.sprite.sizeMode = Sprite.SizeMode.RAW;
+        this.sprite.trim = false;
+        this.sprite.spriteFrame = spriteFrame;
     }
 }

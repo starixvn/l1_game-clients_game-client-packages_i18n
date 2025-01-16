@@ -45,7 +45,7 @@ export class LocalizedOnePackSprite extends LocalizedSprite {
             spriteFrame = this.getDefaultSprite();
         }
 
-        this.sprite.spriteFrame = spriteFrame;
+        this.setSprite(spriteFrame);
     }
 }
 

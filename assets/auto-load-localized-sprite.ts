@@ -45,7 +45,7 @@ export class AutoLoadLocalizedSprite extends LocalizedSprite {
         try {
             const fileName = this.generateSpriteFrameName();
             const spriteFrame = await bundleManager.loadAssetsFromBundle<SpriteFrame>(this.bundleName, fileName, SpriteFrame, null);
-            this.sprite.spriteFrame = spriteFrame;
+            this.setSprite(spriteFrame);
         } catch (e) {}
     }
 }

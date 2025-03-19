@@ -1,15 +1,10 @@
-import { Enum, SpriteFrame, _decorator } from "cc";
+import { _decorator, Enum, SpriteFrame } from "cc";
 import { EDITOR } from "cc/env";
 import { bundleManager } from "db://shared-components/shared/common-components/bundle-manager/bundle-manager";
 import { LocalizedSprite } from "./LocalizedSprite";
+import { getSpritePath, LocalizedPathType } from "./localized-utils";
 
 const { ccclass, property } = _decorator;
-
-enum PathType {
-    Folder, // path/en/sprite-name
-    Suffix, // path/sprite-name_en
-    SpriteFolder, // path/sprite-name/en
-}
 
 @ccclass("AutoLoadLocalizedSprite")
 export class AutoLoadLocalizedSprite extends LocalizedSprite {
@@ -27,19 +22,11 @@ export class AutoLoadLocalizedSprite extends LocalizedSprite {
     @property
     frameName = "tagline_sc1";
 
-    @property({ type: Enum(PathType) })
-    pathType = PathType.Suffix;
+    @property({ type: Enum(LocalizedPathType) })
+    pathType = LocalizedPathType.Suffix;
 
     protected generateSpriteFrameName() {
-        const extraType = "/spriteFrame";
-        switch (this.pathType) {
-            case PathType.Folder:
-                return `${this.path}/${this.currentLanguage}/${this.frameName}${extraType}`;
-            case PathType.Suffix:
-                return `${this.path}/${this.frameName}_${this.currentLanguage}${extraType}`;
-            case PathType.SpriteFolder:
-                return `${this.path}/${this.frameName}/${this.currentLanguage}${extraType}`;
-        }
+        return getSpritePath(this.pathType, this.path, this.frameName, this.currentLanguage);
     }
     
     async updateSprite() {

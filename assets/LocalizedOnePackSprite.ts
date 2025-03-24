@@ -1,9 +1,11 @@
-import { CCString, SpriteAtlas, SpriteFrame, _decorator, error } from 'cc';
-import * as i18n from './LanguageData';
-import { LocalizedSprite } from './LocalizedSprite';
+import { CCString, SpriteAtlas, SpriteFrame, _decorator, error } from "cc";
+import { EDITOR } from "cc/env";
+import { bundleManager } from "db://shared-components/shared/common-components/bundle-manager/bundle-manager";
+import * as i18n from "./LanguageData";
+import { LocalizedSprite } from "./LocalizedSprite";
 const { ccclass, property, executeInEditMode } = _decorator;
 
-@ccclass('LocalizedOnePackSprite')
+@ccclass("LocalizedOnePackSprite")
 @executeInEditMode
 export class LocalizedOnePackSprite extends LocalizedSprite {
     @property(SpriteAtlas)
@@ -17,8 +19,8 @@ export class LocalizedOnePackSprite extends LocalizedSprite {
 
     @property({
         type: SpriteFrame,
-        override:true,
-        visible:false
+        override: true,
+        visible: false,
     })
     spriteList = [];
 
@@ -32,11 +34,28 @@ export class LocalizedOnePackSprite extends LocalizedSprite {
         return this.atlas.getSpriteFrame(spriteName);
     }
 
-    updateSprite() {
+    async updateSprite() {
+        if (!this.atlas && EDITOR) {
+            return;
+        }
         if (!this.sprite) {
             if (this.node.activeInHierarchy) {
                 error("Failed to update localized sprite, sprite component is invalid!");
             }
+            return;
+        }
+
+        if (!this.atlas) {
+            //try download atlas
+            this.atlas = await bundleManager.loadAssetsFromBundle<SpriteAtlas>(
+                "resources",
+                `i18n-atlas/atlas-${this.currentLanguage}`,
+                SpriteAtlas,
+                null
+            );
+        }
+        if (!this.atlas) {
+            error("Failed to update localized sprite, atlas is invalid!");
             return;
         }
 
@@ -48,4 +67,3 @@ export class LocalizedOnePackSprite extends LocalizedSprite {
         this.setSprite(spriteFrame);
     }
 }
-

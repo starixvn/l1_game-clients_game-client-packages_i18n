@@ -49,7 +49,7 @@ export class LocalizedOnePackSprite extends LocalizedSprite {
             //try download atlas
             this.atlas = await bundleManager.loadAssetsFromBundle<SpriteAtlas>(
                 "resources",
-                `i18n-atlas/atlas-${this.currentLanguage}`,
+                `i18n-images/atlas_${this.currentLanguage}`,
                 SpriteAtlas,
                 null
             );
